@@ -1,5 +1,11 @@
 FROM node:alpine3.18 as build
 
+# declare build time env variables
+ARG VITE_BACKEND_URL
+
+# Set environment variables
+ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
+
 # Build App
 WORKDIR /app
 COPY package.json .
