@@ -19,7 +19,7 @@ jobs:
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/reactjs-app --build-arg VITE_BACKEND_URL='${{secrets.VITE_BACKEND_URL}}' .
 
       - name: Publish Image to docker hub 
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/reactjs-app:latest 
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/reactjs-app:latest
         
   deploy:
     needs: build
