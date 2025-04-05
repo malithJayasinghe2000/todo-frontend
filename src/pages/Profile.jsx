@@ -1,6 +1,6 @@
 import React, { use, useContext, useEffect, useState } from 'react'
 import { AppContext } from '../context/AppContext'
-import UserForm from '../components/userFOrm'
+import UserForm from '../components/UserForm.jsx'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import ChangePassword from './ChangePassword'
