@@ -1,0 +1,39 @@
+name: Deploy Node Application
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Login to Docker hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker Image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/reactjs-app --build-arg VITE_BACKEND_URL='${{secrets.VITE_BACKEND_URL}}' .
+
+      - name: Publish Image to docker hub 
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/reactjs-app:latest 
+        
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Pull Docker Image
+        run: docker pull ${{ secrets.DOCKER_USERNAME }}/reactjs-app:latest
+      - name: Remove existing container if it exists
+        run: |
+          docker ps -aq -f name=reactjs-app-container | xargs -r docker rm -f
+
+      - name: Run Docker Container
+        run: |
+          docker run -d -p 3000:80 \
+            --name reactjs-app-container \
+            ${{ secrets.DOCKER_USERNAME }}/reactjs-app
+
