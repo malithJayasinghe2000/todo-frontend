@@ -10,7 +10,7 @@ const CompletedTasks = () => {
 
   return (
     <div>
-      
+      {/* comment */}
     </div>
   )
 }
